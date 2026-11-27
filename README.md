@@ -58,7 +58,8 @@ TB-BTR/
 ├── docs/
 │   ├── analysis_methods.md
 │   ├── data_dictionary.md
-│   └── data_use.md
+│   ├── data_use.md
+│   └── submission_repository_QA.md
 ├── reproducibility/
 │   └── fixed_case/        expression inputs, reference signatures, manifest, outputs
 └── scripts/
@@ -66,7 +67,7 @@ TB-BTR/
     └── reproduce_fixed_case.R
 ```
 
-`data/tables/` holds the published tables. `data/metadata/` holds machine-readable tables that support them: per-record treatment-interval provenance, a matrix inventory recording accessions and dimensions with dataset research classifications, and the estimability of each cell category in the case study. `docs/` defines the fields and phenotype rules, documents the analysis, and states the terms attached to third-party material.
+`data/tables/` holds the published tables. `data/metadata/` holds machine-readable tables that support them: per-record treatment-interval provenance, a matrix inventory recording accessions and dimensions with dataset research classifications, and the estimability of each cell category in the case study. `docs/` defines the fields and phenotype rules, documents the analysis, states the terms attached to third-party material, and records the checks performed for this submission.
 
 ## Reproducible case study
 

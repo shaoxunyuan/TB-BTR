@@ -1,0 +1,6 @@
+"dataset"	"study"	"primary_publication"	"source_url"	"rationale"
+"GSE19439-GPL6947"	"Berry 2010"	"20725040"	"https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE19439"	"Pretreatment London training; explicit tr subject codes"
+"GSE19444-GPL6947"	"Berry 2010"	"20725040"	"https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE19444"	"Pretreatment London test; explicit test subject codes"
+"GSE19442-GPL6947"	"Berry 2010"	"20725040"	"https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE19442"	"South Africa validation; explicit val codes"
+"GSE37250-GPL10558"	"Kaforou 2013"	"24167453"	"https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE37250"	"African adult cohorts; site-specific participant codes"
+"GSE39939-GPL10558"	"Anderson 2014"	"10.1056/NEJMoa1303657"	"https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE39939"	"Kenyan paediatric cohort; KIL participant codes"

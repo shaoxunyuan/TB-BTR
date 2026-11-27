@@ -1,0 +1,20 @@
+naive_B_cell	B cells
+memory_B_cell	B cells
+plasma_cell	B cells
+CD8_positive_alpha_beta_T_cell	CD8 T cells
+CD4_positive_alpha_beta_T_cell	CD4 T cells
+gamma_delta_T_cell	GD T cells
+CD56bright_natural_killer_cell	NK cells
+CD56dim_natural_killer_cell	NK cells
+CD14_positive_monocyte	Monocytes
+CD16_positive_monocyte	Monocytes
+macrophage_m0	Macrophages
+macrophage_m1	Macrophages
+macrophage_m2	Macrophages
+MAST_cell	Mast cells
+basophil	Basophils
+eosinophil	Eosinophils
+neutrophil	Neutrophils
+plasmacytoid_dendritic_cell	Dendritic cells
+myeloid_dendritic_cell	Dendritic cells
+hematopoietic_progenitor	Hematopoietic progenitor

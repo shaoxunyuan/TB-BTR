@@ -1,0 +1,13 @@
+results/
+__pycache__/
+*.py[cod]
+.Rhistory
+.RData
+.Rproj.user/
+.DS_Store
+Thumbs.db
+.env
+.env.*
+!.env.example
+*.log
+*.tmp

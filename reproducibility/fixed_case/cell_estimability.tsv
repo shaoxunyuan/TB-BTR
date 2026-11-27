@@ -1,0 +1,25 @@
+signature	cell	planned_test_family	estimable_dataset_site_effects	estimable_original_studies	pooled_estimable	reason
+immunostates	B.cells	13	1	1	FALSE	Insufficient finite positive-variance effects; not assigned a zero effect
+immunostates	Basophils	13	6	3	TRUE	Finite pooled estimate
+immunostates	CD4.T.cells	13	6	3	TRUE	Finite pooled estimate
+immunostates	CD8.T.cells	13	6	3	TRUE	Finite pooled estimate
+immunostates	Dendritic.cells	13	1	1	FALSE	Insufficient finite positive-variance effects; not assigned a zero effect
+immunostates	Eosinophils	13	0	0	FALSE	Insufficient finite positive-variance effects; not assigned a zero effect
+immunostates	GD.T.cells	13	0	0	FALSE	Insufficient finite positive-variance effects; not assigned a zero effect
+immunostates	Hematopoietic.progenitor	13	5	3	TRUE	Finite pooled estimate
+immunostates	Macrophages	13	6	3	TRUE	Finite pooled estimate
+immunostates	Mast.cells	13	0	0	FALSE	Insufficient finite positive-variance effects; not assigned a zero effect
+immunostates	Monocytes	13	6	3	TRUE	Finite pooled estimate
+immunostates	Neutrophils	13	6	3	TRUE	Finite pooled estimate
+immunostates	NK.cells	13	4	2	TRUE	Finite pooled estimate
+lm22	B.cells	11	6	3	TRUE	Finite pooled estimate
+lm22	CD4.T.cells	11	6	3	TRUE	Finite pooled estimate
+lm22	CD8.T.cells	11	1	1	FALSE	Insufficient finite positive-variance effects; not assigned a zero effect
+lm22	Dendritic.cells	11	6	3	TRUE	Finite pooled estimate
+lm22	Eosinophils	11	6	3	TRUE	Finite pooled estimate
+lm22	GD.T.cells	11	2	1	FALSE	Insufficient finite positive-variance effects; not assigned a zero effect
+lm22	Macrophages	11	6	3	TRUE	Finite pooled estimate
+lm22	Mast.cells	11	6	3	TRUE	Finite pooled estimate
+lm22	Monocytes	11	6	3	TRUE	Finite pooled estimate
+lm22	Neutrophils	11	6	3	TRUE	Finite pooled estimate
+lm22	NK.cells	11	6	3	TRUE	Finite pooled estimate

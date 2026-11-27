@@ -1,0 +1,22 @@
+B_cells_naive	B cells
+B_cells_memory	B cells
+Plasma_cells	B cells
+T_cells_CD8	CD8 T cells
+T_cells_CD4_naive	CD4 T cells
+T_cells_CD4_memory_resting	CD4 T cells
+T_cells_CD4_memory_activated	CD4 T cells
+T_cells_follicular_helper	CD4 T cells
+T_cells_regulatory_Tregs	CD4 T cells
+T_cells_gamma_delta	GD T cells
+NK_cells_resting	NK cells
+NK_cells_activated	NK cells
+Monocytes	Monocytes
+Macrophages_M0	Macrophages
+Macrophages_M1	Macrophages
+Macrophages_M2	Macrophages
+Dendritic_cells_resting	Dendritic cells
+Dendritic_cells_activated	Dendritic cells
+Mast_cells_resting	Mast cells
+Mast_cells_activated	Mast cells
+eosinophil	Eosinophils
+neutrophil	Neutrophils

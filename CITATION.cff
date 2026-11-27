@@ -18,6 +18,7 @@ authors:
     given-names: Shaoxun
 repository-code: "https://github.com/shaoxunyuan/TB-BTR"
 url: "http://tbbtr.njucm-bioinfo.cn:9191/"
+license: MIT
 keywords:
   - tuberculosis
   - transcriptomics

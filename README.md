@@ -48,6 +48,7 @@ Participant linkage is available for 8,272 records across 46 datasets, contribut
 TB-BTR/
 ├── README.md
 ├── CITATION.cff
+├── LICENSE
 ├── environment.yml
 ├── data/
 │   ├── tables/            Table 1, Supplementary Tables S1 and S2
@@ -116,6 +117,8 @@ A machine-readable record is provided in `CITATION.cff`. Studies contributing to
 
 ## Licensing and contact
 
-The repository combines project-authored material with data and signatures obtained from other sources, and these are not governed by a single set of terms. The harmonised annotations, derived tables, and analysis scripts produced for TB-BTR may be reused with attribution to the resource. Public expression data, the LM22 and ImmunoStates reference signatures, and third-party software remain subject to the conditions set by their original providers; [`docs/data_use.md`](docs/data_use.md) records those sources and the terms attached to each.
+Analysis code and documentation written for TB-BTR are released under the MIT License (see `LICENSE`). This covers the files in `scripts/`, `metadata`-derived tables and field definitions produced for the resource, and the documentation in `docs/`.
+
+The licence does not extend to the contents of `reproducibility/fixed_case/gene/` or to the LM22 and ImmunoStates reference signatures, which originate elsewhere and remain subject to the terms of their providers; [`docs/data_use.md`](docs/data_use.md) records each source and its conditions.
 
 Corrections, questions, and reproduction issues can be raised through the repository's Issues page.

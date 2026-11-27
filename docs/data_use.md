@@ -34,8 +34,8 @@ Platform accounts, uploaded private cohorts, service credentials, original parti
 
 ## Licensing
 
-The repository does not carry a single licence covering its contents, because the constituent parts come from different sources under different terms.
+Analysis code and documentation written for TB-BTR are released under the MIT License (`LICENSE`). The licence covers the project's own scripts, derived tables, and documentation.
 
-Annotations, derived tables, and analysis code produced for TB-BTR may be reused with attribution to the resource. Public expression data and the reference signatures remain under the terms of their providers, as described above. No project licence is asserted over third-party material, and none of the third-party terms are relaxed by its inclusion here.
+It does not extend to public expression data, to the LM22 and ImmunoStates reference signatures, or to third-party software, all of which remain under the terms of their providers as described above. No project licence is asserted over third-party material, and none of the third-party terms are relaxed by its inclusion here.
 
 Requests concerning permissions, corrections, or additional material can be directed to the maintainers through the repository's Issues page.

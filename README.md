@@ -91,7 +91,7 @@ python scripts/validate_release.py
 Rscript scripts/reproduce_fixed_case.R reproducibility/fixed_case results/fixed_case
 ```
 
-`scripts/validate_release.py` checks the internal consistency of the deposit: dataset and record totals, uniqueness of dataset–sample identifiers, default-scope counts, coverage of the treatment-interval table, and agreement between Table S1, Table S2, and the analysis manifest.
+`scripts/validate_release.py` checks the internal consistency of the deposit: dataset and record totals, uniqueness of dataset–sample identifiers, default-scope counts, coverage of the treatment-interval table, matrix dimensions in Table S1 against both the stored record counts and the metadata inventory, and agreement between Table S1, Table S2, and the analysis manifest.
 
 `scripts/reproduce_fixed_case.R` recomputes cell fractions, dataset- and study-level effects, and pooled estimates from the deposited expression inputs, then compares them with the reference outputs. Agreement is required to within `1e-8`, and the run aborts if any comparison fails. Outputs are written to the directory given as the second argument, which the command above sets to `results/fixed_case`; `results/` is excluded from version control:
 

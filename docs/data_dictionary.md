@@ -52,7 +52,9 @@ Progression-associated sampling uses a separate set of diagnosis-relative window
 
 ## Matrix inventory and research classification
 
-`data/metadata/matrix_inventory.tsv` lists stored matrix row and column counts together with paths recorded relative to the original platform root. Those paths document provenance and do not resolve inside this repository. Gene and module matrices hold features in rows and samples in columns; cell matrices hold samples in rows and cell categories in columns. Zero dimensions accompany matrices that were unavailable at curation time.
+`data/metadata/matrix_inventory.tsv` lists stored matrix row and column counts together with paths recorded relative to the original platform root. Those paths document provenance and do not resolve inside this repository. Gene and module matrices hold features in rows and samples in columns; cell matrices hold samples in rows and cell categories in columns. The sample axis of every available matrix therefore equals that dataset's expression-profile record count, and `scripts/validate_release.py` enforces that equality for all five matrices. Zero dimensions accompany matrices that were unavailable at curation time.
+
+Stored gene matrices use two header conventions: most are tab-separated, whereas a minority were written with a space separator and quoted sample identifiers. A reader must accept both, or the column count of the second group is misread as zero.
 
 The inventory covers gene-level matrices and three derived representations: gene-module matrices for BTM and BloodGen3, and cell-level matrices for LM22 and ImmunoStates. Module scoring and cell-fraction estimation for the platform are performed server-side; the deposited code does not recompute them, and the cell-level matrices are distributed for provenance and comparison rather than as analysis inputs.
 

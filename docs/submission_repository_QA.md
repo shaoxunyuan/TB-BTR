@@ -190,3 +190,5 @@ Then update `CITATION.cff` to `version: 1.0.0` with the release date and commit.
 ### 3. Outstanding scientific question
 
 The expression-scale rule in `reproducibility/fixed_case/methods/Figure4_deconvolution.R` back-transforms matrices whose maximum is below 50 using `2^x - 1`. All five deposited matrices fall in that range. For log2 intensities the conventional inverse is `2^x`; the two differ by roughly 6% at the low end before column normalisation. This was documented in `docs/analysis_methods.md` but not changed, since it affects the reported scientific result and is a decision for the project lead.
+
+The alternative inverse was recomputed on 27 November 2026 for GSE19439-GPL6947: replacing `2^x - 1` with `2^x` changed the eleven mapped LM22 fractions by at most 0.0039 and by 0.0007 on average, well below the pooled effect sizes and confidence intervals reported for Figure 4. The rule is therefore retained as documented rather than corrected in the deposited code.

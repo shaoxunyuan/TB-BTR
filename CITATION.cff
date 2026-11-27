@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use TB-BTR data, annotations, or analysis code, please cite this record together with the original studies listed in Supplementary Table S1."
+title: "TB-BTR: Tuberculosis Blood Transcriptome Resource"
+type: dataset
+version: 0.1.0
+date-released: 2026-11-27
+abstract: >-
+  TB-BTR is a curated resource of human blood transcriptome studies for
+  tuberculosis research. Publicly deposited microarray and RNA-seq studies are
+  assembled into a single catalogue with harmonised clinical phenotypes,
+  documented treatment-interval provenance, participant linkage where the source
+  permits, and derived expression and immune-cell profiles. The deposit contains
+  the resource inventories, supplementary tables, field definitions, and the
+  inputs and code needed to reproduce one comparative analysis of inferred
+  immune-cell composition between active tuberculosis and latent infection.
+authors:
+  - family-names: Yuan
+    given-names: Shaoxun
+repository-code: "https://github.com/shaoxunyuan/TB-BTR"
+url: "http://tbbtr.njucm-bioinfo.cn:9191/"
+keywords:
+  - tuberculosis
+  - transcriptomics
+  - blood transcriptome
+  - gene expression
+  - immune-cell deconvolution
+  - meta-analysis
+  - curated database
+  - reproducible research

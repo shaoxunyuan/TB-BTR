@@ -1,8 +1,8 @@
-name: YSXconda_iRABIT
+name: tb-btr
 channels:
   - conda-forge
 dependencies:
   - python=3.11
   - openpyxl=3.1.5
   - r-base=4.5.2
-  - r-metafor
+  - r-metafor=5.2.1

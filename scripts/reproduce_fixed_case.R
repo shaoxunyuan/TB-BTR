@@ -1,5 +1,6 @@
-# Recompute the fixed case from the public, source-selected gene matrices.
-# R packages: metafor. No website, private files or source identity values needed.
+# Recompute the deposited case study from the public, source-selected gene matrices.
+# Requires R and metafor. No platform service, private file, or original
+# participant identifier is needed.
 args <- commandArgs(trailingOnly = TRUE)
 if (!length(args)) stop("Usage: Rscript scripts/reproduce_fixed_case.R BUNDLE_DIRECTORY [OUTPUT_DIRECTORY]")
 bundle <- normalizePath(args[[1]], mustWork = TRUE)
@@ -11,6 +12,7 @@ suppressPackageStartupMessages(library(metafor))
 manifest <- read.delim(file.path(bundle, "sample_manifest.tsv"), stringsAsFactors = FALSE)
 write_tsv <- function(x, name) write.table(x, file.path(out, name), sep = "\t", row.names = FALSE, quote = TRUE, na = "NA")
 rows <- list()
+qc_rows <- list()
 for (dataset in unique(manifest$dataset)) {
   samples <- manifest[manifest$dataset == dataset, ]
   gene <- .read_gene_matrix_full(file.path(bundle, "gene", paste0(dataset, ".txt")))
@@ -20,6 +22,7 @@ for (dataset in unique(manifest$dataset)) {
     reference <- .mc_read_sigmatrix(file.path(bundle, paste0("reference_", label, ".tsv")))
     fit <- reference_nnls(gene, reference, file.path(bundle, paste0("mapping_", label, ".tsv")))
     stopifnot(all(samples$sample %in% fit$matrix$SampleID))
+    qc_rows[[length(qc_rows) + 1L]] <- cbind(data.frame(dataset = dataset, signature = signature), fit$qc)
     fractions <- fit$matrix[match(samples$sample, fit$matrix$SampleID), ]
     for (cell in setdiff(names(fractions), "SampleID")) rows[[length(rows) + 1L]] <- data.frame(
       samples, signature = signature, cell = cell, fraction = fractions[[cell]], check.names = FALSE)
@@ -28,6 +31,7 @@ for (dataset in unique(manifest$dataset)) {
 }
 d <- do.call(rbind, rows)
 write_tsv(d, "recomputed_fractions.tsv")
+write_tsv(do.call(rbind, qc_rows), "deconvolution_qc.tsv")
 expected <- read.delim(file.path(bundle, "expected_fractions.tsv"), stringsAsFactors = FALSE)
 key <- function(x) paste(x$dataset, x$sample, x$signature, x$cell, sep = "::")
 stopifnot(!anyDuplicated(key(d)), setequal(key(d), key(expected)))

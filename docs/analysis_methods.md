@@ -1,25 +1,55 @@
-# Illustrative analysis
+# Analysis methods
 
-## Selection and analysis units
+This document describes the analysis deposited in `reproducibility/fixed_case/` and implemented in `reproducibility/fixed_case/methods/` with entry point `scripts/reproduce_fixed_case.R`.
 
-The fixed ATB–LTBI UC comparison uses selected HIV-negative whole-blood microarray records from GSE19439, GSE19444, GSE19442, GSE37250 and GSE39939. Selection excludes recorded longitudinal, treatment-related and recovery annotations and retains one record per source-specific participant key. The sample manifest provides the exact selected records, group, region and original-study association.
+## Design
 
-The five regional cohorts are Berry UK, Berry South Africa, Kaforou Malawi, Kaforou South Africa and Anderson Kenya. Berry UK training/test subsets are combined within region; regional effects are then combined within original studies. The final random-effects analysis uses three original studies.
+The case study asks whether inferred blood immune-cell composition differs between active tuberculosis (ATB) and latent infection without a supported progressor subdivision (LTBI UC). It uses five HIV-negative whole-blood microarray datasets for which pretreatment status and source-specific participant keys are documented: GSE19439, GSE19442, and GSE19444 (Berry et al., 2010), GSE37250 (Kaforou et al., 2013), and GSE39939 (Anderson et al., 2014).
+
+Selection excludes records carrying longitudinal, treatment, or recovery annotations and retains one record per source-specific participant key. The resulting 369 records comprise 203 ATB and 166 LTBI UC observations. Berry UK training and test data are pooled within region, so the five datasets form six dataset–site strata and five regional cohorts: Berry UK, Berry South Africa, Kaforou Malawi, Kaforou South Africa, and Anderson Kenya. Regional estimates are combined within original studies, and the across-study model draws on three original studies.
+
+The sample manifest records the dataset, sample identifier, group, region, and original-study assignment for every selected record.
+
+## Expression scale
+
+The deposited gene matrices are used as supplied. A single rule governs scale: where a matrix is non-negative and its maximum falls below 50, values are back-transformed as `2^x - 1`; otherwise they are treated as linear. All five deposited matrices have ranges between roughly 4 and 16 and therefore take the back-transformation, consistent with log2 microarray intensities.
+
+The rule is a range heuristic and does not establish the transformation each source applied. Ordinary log2 intensities and log2(x+1) values require different inverses, and the two conventions are not distinguishable from the value range alone. Scores that enter the model are column-normalised afterwards, so a constant offset in the inversion changes relative rather than absolute values; its effect on the reported fractions is therefore not nil but is secondary to the choice of reference. Reference matrices are not transformed.
 
 ## Relative immune-cell contributions
 
-Expression and reference matrices are matched by gene identifier. Nonnegative input matrices with maximum value below 50 are transformed using `2^x - 1`; otherwise linear values are retained. This reproduces the fixed case's scale heuristic. It does not independently verify each matrix's original log transformation; ordinary log2 intensities and log2(x+1) have different inverses.
+Expression and reference matrices are matched by gene identifier, and the analysis requires at least 100 shared genes. Rows that are non-finite in either matrix, or that sum to zero in either, are dropped before fitting.
 
-Reference columns and each sample are normalized over overlapping genes. Gene weights are the reciprocal of the reference-row RMS, bounded below at its 10th percentile. Weighted reference columns are normalized by their L2 norms before Lawson–Hanson active-set NNLS with QR. Coefficients are rescaled, normalized to sum to one and aggregated using the provided reference-specific mappings. LM22 is the primary reference and ImmunoStates is used for reference sensitivity.
+Reference columns and sample columns are scaled to unit column sum. Gene weights are the reciprocal of the reference-row root-mean-square, with the denominator bounded below at the 10th percentile of the row distribution, so that low-dispersion genes cannot dominate. Weighted reference columns are then normalised to unit L2 norm.
+
+Each sample is fitted by Lawson–Hanson active-set non-negative least squares, with each active-set least-squares problem solved by QR decomposition at tolerance `1e-10`. Fitting aborts if the active-set iteration limit is exceeded or if the KKT residual exceeds `1e-4`. Coefficients are divided by the reference-column norm used in fitting and then normalised to sum to one, yielding relative contributions that are aggregated through the supplied reference-specific cell mappings.
+
+LM22 is the primary reference and ImmunoStates the reference-sensitivity analysis. The two mappings are applied separately and their outputs are never combined. Per-sample fit quality — overlapping gene count, convergence, KKT residual, weighted residual, and the correlation between fitted and observed profiles — is returned with the results.
+
+This is a weighted NNLS implementation written for this analysis. It is not CIBERSORT or CIBERSORTx, and results should not be described as CIBERSORT output.
 
 ## Effect estimation and inference
 
-Hedges' g is computed with `metafor::escalc(measure="SMD")` for ATB minus LTBI UC within dataset-site subsets. Fixed-effect inverse-variance aggregation first combines subsets within region and then regions within original studies. DerSimonian–Laird random effects and Knapp–Hartung inference are computed across original studies. Benjamini–Hochberg correction retains all 11 LM22 or 13 ImmunoStates planned categories, including categories with unavailable pooled effects. Categories with fewer than two estimable original studies do not yield a pooled estimate.
+Hedges' g for ATB minus LTBI UC is computed with `metafor::escalc(measure = "SMD")` within each dataset–site stratum, using group means, standard deviations, and group sizes. Strata with non-finite effects or non-positive variances are excluded.
 
-The included expected fractions and pooled results are comparison targets, not substitutes for calculation. `reproduce_fixed_case.R` recomputes them from the selected expression inputs. The supplied sensitivity files report exclusion of the childhood study and omission of individual studies; the reproduction entry point checks the primary fractions and pooled effects, rather than claiming to regenerate every supplementary worksheet.
+Fixed-effect inverse-variance aggregation proceeds in two stages: subsets within region, then regions within original study. Each stage weights by the reciprocal of the sampling variance and reports the combined group sizes.
+
+Across-study models are fitted with `metafor::rma.uni` using DerSimonian–Laird variance estimation. The primary estimate and confidence interval come from the normal-approximation test; a second fit with Knapp–Hartung adjustment provides `hk_lower`, `hk_upper`, and `hk_p`, which serve as a small-*k* sensitivity analysis. Cochran's Q, its p-value, I², and τ² are reported with the primary fit.
+
+Benjamini–Hochberg correction is applied separately to the normal-approximation and Knapp–Hartung p-values within each planned test family of 11 LM22 and 13 ImmunoStates categories. The full family size is retained as the correction denominator, including categories that yield no pooled estimate, so the correction is not adapted to the number of categories that happened to be estimable.
+
+A category is modelled across original studies only when at least two estimable studies are available. Categories failing that condition appear in `cell_estimability.tsv` with the reason recorded, and are left out of the pooled table rather than assigned an effect of zero.
+
+## Sensitivity analyses
+
+`sensitivity_adult_only.tsv` repeats the pooled analysis after excluding the paediatric Kenyan cohort, leaving two original studies. `sensitivity_leave_one_study_out.tsv` reports the pooled estimate obtained when each original study is omitted in turn. Both are two-study models, so Knapp–Hartung intervals are substantially wider than the primary intervals and should be read with that in mind. These tables are deposited as outputs; the reproduction entry point recomputes the primary analysis.
 
 ## Interpretation
 
-Outputs are inferred relative reference contributions. Reference choice and study composition affect interpretation, particularly for monocytes. Selection of monocytes, neutrophils and CD4 T cells for detailed display was post hoc. Complete pretreatment status was verified for Berry sources; ascertainment in other sources and linkage across studies remain incomplete. Excluding Anderson is a study-composition sensitivity, not verification of adult numeric age for every remaining record.
+Reported values are inferred contributions relative to a chosen reference signature, not measured cell abundances. Both reference choice and study composition influence the estimates. Across the five categories estimated under both references, the effect directions agree except for monocytes, which change sign between LM22 and ImmunoStates; the magnitude is also substantially larger under LM22 for CD4 T cells, neutrophils, and macrophages.
 
-This exploratory comparison does not establish within-person progression, absolute cell counts or diagnostic performance. It does not rerun upstream raw sequencing or microarray preprocessing. The general platform's online dataset-level pooling does not automatically perform the original-study aggregation or Knapp–Hartung sensitivity used here.
+The three categories presented in detail — monocytes, neutrophils, and CD4 T cells — were selected after inspection of the results and are illustrative rather than a prespecified primary set.
+
+Pretreatment status was verified for the Berry sources. Ascertainment for the other sources and linkage across studies remain incomplete, and pseudonymous linkage keys are unique within the selected set only. Excluding the paediatric cohort is a study-composition sensitivity analysis; it does not establish adult age for every retained record.
+
+The comparison does not support inference on within-person progression, absolute cell counts, or diagnostic performance, and it does not reprocess upstream sequencing or microarray data. The online platform pools at dataset level, whereas this analysis aggregates within original studies and applies Knapp–Hartung inference; the two sets of estimates are not directly comparable.

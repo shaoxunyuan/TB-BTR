@@ -1,59 +1,121 @@
-# TB-BTR: data and reproducible analyses
+# TB-BTR: Tuberculosis Blood Transcriptome Resource
 
-TB-BTR (Tuberculosis Blood Transcriptome Resource) links curated clinical annotations to human blood transcriptomic datasets for tuberculosis research.
+TB-BTR is a curated resource of human blood transcriptome studies for tuberculosis research. Publicly deposited microarray and RNA-seq studies are assembled into a single catalogue in which study provenance, specimen type, clinical phenotype, treatment timing, and participant linkage are recorded under harmonised definitions.
 
-- **Web platform:** http://tbbtr.njucm-bioinfo.cn:9191/
-- **Data snapshot:** 27 November 2026
-- **Scope:** 98 catalogued study records, 82 datasets and 11,820 expression-profile records.
+**Web platform:** http://tbbtr.njucm-bioinfo.cn:9191/
 
-This repository provides the public resource inventories, harmonized annotations, supplementary tables and reproducible inputs and code for the illustrative ATB–LTBI UC comparison. It is a data and analysis companion to the platform, rather than a complete web-server distribution.
-
-## Contents
-
-| Path | Contents |
+| | |
 | --- | --- |
-| `data/tables/` | Table 1 and Supplementary Tables S1 and S2, including their worksheet definitions and notes |
-| `data/metadata/` | Final sampling intervals and provenance, dataset research classifications and matrix dimensions, and cell-category estimability |
-| `reproducibility/fixed_case/` | Selected expression inputs, reference signatures, mappings, sample manifest, expected results and sensitivity analyses |
-| `scripts/reproduce_fixed_case.R` | Recompute the illustrative case from the included expression inputs |
-| `scripts/validate_release.py` | Check inventory totals, sample identifiers, selection links and agreement between tables and public metadata |
-| `docs/` | Data definitions, analysis methods and third-party attribution |
-| `environment.yml` | Dependencies for validation and reproduction |
+| Catalogued study records | 98 |
+| Datasets | 82 |
+| Expression-profile records | 11,820 |
+| Records within the default analysis scope | 10,785 across 79 datasets |
+| Data snapshot | 27 November 2026 |
 
-## Reproduce the analysis
+Detailed breakdowns by repository, assay, specimen, phenotype, and metadata completeness are given in Table 1, which is the authoritative statement of these totals.
 
-The analysis requires R and `metafor`; Python with `openpyxl` is used for metadata validation. The supplied inputs have been tested with R 4.5.2 and metafor 5.2.1. Run from the repository root:
+## Overview
 
-On a new machine, an environment can be prepared with `conda env create -f environment.yml`, followed by `conda activate YSXconda_iRABIT`. Skip environment creation when using an existing suitable environment. The environment file describes dependencies; the validation below was performed in the existing server environment.
+Blood transcriptional signatures distinguish active tuberculosis from latent infection and from other respiratory disease, but the underlying studies differ in cohort definition, specimen handling, assay platform, and the clinical vocabulary used to describe participants. TB-BTR addresses this by curating published studies against one set of field definitions and phenotype rules, so that records from different sources can be retrieved and compared on a common footing.
+
+The resource supports retrieval of studies and datasets together with their curated annotations; gene-, module-, and cell-level expression queries across studies; and comparative analyses within and across cohorts. It is intended for researchers assembling analysis sets for signature evaluation, immune-cell deconvolution, and pathway-level interpretation, and for readers who need to trace how a published cohort was annotated.
+
+## Web resource
+
+The platform at http://tbbtr.njucm-bioinfo.cn:9191/ provides interactive access to the collection:
+
+- Browsing and searching of catalogued studies and datasets, with sample-level metadata and provenance for each record.
+- Expression queries at gene, gene-module (BTM and BloodGen3), and immune-cell level.
+- Comparative analyses, including differential gene expression, gene-module group comparison, cell-type fraction comparison against the LM22 and ImmunoStates references, Reactome pathway enrichment, and protein–protein interaction networks.
+- Forest plots for summarising effects across datasets, and download of expression and analysis tables.
+- A private workspace for analysing user-supplied cohorts alongside the public collection.
+
+This repository is the data and analysis companion to the platform. It distributes the inventories, harmonised annotations, supplementary tables, and the materials needed to reproduce one comparative analysis. It does not contain the platform source code, the complete processed expression matrices for all 82 datasets, or the upstream preprocessing pipeline.
+
+## Data resources
+
+Records derive from NCBI GEO (76 datasets, 10,696 records) and EMBL-EBI ArrayExpress (6 datasets, 1,124 records). Fifty datasets (5,977 records) used microarray platforms and 32 (5,843 records) used RNA-seq. Peripheral whole blood accounts for 10,609 records across 67 datasets and PBMC preparations for 1,211 records across 16 datasets; one dataset contributes records of both specimen types, so these dataset counts overlap.
+
+Clinical annotation follows a harmonised phenotype scheme covering uninfected individuals (UI), latent infection without a supported progressor subdivision (LTBI UC), latent infection with documented non-progression (LTBI NP), incipient TB (ITB), subclinical TB (STB), active TB (ATB), and sampling during active-TB treatment. Healthy and source-defined non-TB disease groups are reported as comparators, and records whose evidence does not support one of these categories remain explicitly unresolved.
+
+Treatment timing is recorded as one of eight intervals from `(0,7]` to `(360,Inf)` days after treatment initiation, with the earlier source interval preserved alongside the final assignment. Progression-associated sampling is recorded separately, in diagnosis-relative windows, so that timing is not conflated with cross-sectional phenotype.
+
+Participant linkage is available for 8,272 records across 46 datasets, contributing 4,048 source-scoped identifiers. Two annotation exclusions are applied by default: 552 records from ex vivo stimulation experiments and 483 cultured controls. The resulting default scope of 10,785 records across 79 datasets is the set the platform treats as eligible before further user selection.
+
+## Repository structure
+
+```text
+TB-BTR/
+├── README.md
+├── CITATION.cff
+├── environment.yml
+├── data/
+│   ├── tables/            Table 1, Supplementary Tables S1 and S2
+│   └── metadata/          treatment-interval provenance, matrix inventory, estimability
+├── docs/
+│   ├── analysis_methods.md
+│   ├── data_dictionary.md
+│   └── data_use.md
+├── reproducibility/
+│   └── fixed_case/        expression inputs, reference signatures, manifest, outputs
+└── scripts/
+    ├── validate_release.py
+    └── reproduce_fixed_case.R
+```
+
+`data/tables/` holds the published tables. `data/metadata/` holds machine-readable tables that support them: per-record treatment-interval provenance, a matrix inventory recording accessions and dimensions with dataset research classifications, and the estimability of each cell category in the case study. `docs/` defines the fields and phenotype rules, documents the analysis, and states the terms attached to third-party material.
+
+## Reproducible case study
+
+The case study addresses whether inferred blood immune-cell composition differs between active tuberculosis and untreated latent infection. It uses 369 HIV-negative whole-blood microarray records, 203 ATB and 166 LTBI UC, drawn from five datasets in three original studies and grouped into five regional cohorts: Berry UK, Berry South Africa, Kaforou Malawi, Kaforou South Africa, and Anderson Kenya. The selection criteria, the record-level manifest, and the study assignments are all deposited, so the analysis set can be rebuilt and checked line by line.
+
+Relative contributions are estimated separately against the LM22 reference, as the primary analysis, and against ImmunoStates, as a reference-sensitivity analysis, using weighted active-set non-negative least squares on reference and sample matrices normalised over shared genes. Standardised effects for ATB minus LTBI UC are computed as Hedges' g within dataset–site strata and combined by fixed-effect inverse-variance weighting across subsets within region and then across regions within original study. The across-study estimates use DerSimonian–Laird random effects with Knapp–Hartung inference, with Benjamini–Hochberg correction applied within the 11 LM22 and 13 ImmunoStates planned test families. Categories supported by fewer than two estimable original studies yield no pooled estimate.
+
+Sensitivity analyses exclude the paediatric cohort and omit individual studies in turn. [`docs/analysis_methods.md`](docs/analysis_methods.md) gives the full specification.
+
+### Inputs
+
+`reproducibility/fixed_case/` contains the source-selected gene matrices for the five datasets, restricted to the selected records and to the genes required by the two reference signatures; the LM22 and ImmunoStates reference matrices with their cell mappings; the sample manifest; the reference outputs for cell fractions and pooled effects; and the sensitivity tables.
+
+### Running
 
 ```bash
+conda env create -f environment.yml
+conda activate tb-btr
+
 python scripts/validate_release.py
 Rscript scripts/reproduce_fixed_case.R reproducibility/fixed_case results/fixed_case
 ```
 
-For the original server environment:
+`scripts/validate_release.py` checks the internal consistency of the deposit: dataset and record totals, uniqueness of dataset–sample identifiers, default-scope counts, coverage of the treatment-interval table, and agreement between Table S1, Table S2, and the analysis manifest.
 
-```bash
-/home/yuanshaoxun/configurations/miniconda3/envs/YSXconda_iRABIT/bin/python scripts/validate_release.py
-/home/yuanshaoxun/configurations/miniconda3/envs/YSXconda_iRABIT/bin/Rscript scripts/reproduce_fixed_case.R reproducibility/fixed_case results/fixed_case
-```
+`scripts/reproduce_fixed_case.R` recomputes cell fractions, dataset- and study-level effects, and pooled estimates from the deposited expression inputs, then compares them with the reference outputs. Agreement is required to within `1e-8`, and the run aborts if any comparison fails. Outputs are written to the directory given as the second argument, which the command above sets to `results/fixed_case`; `results/` is excluded from version control:
 
-The R script estimates LM22 and ImmunoStates relative contributions using weighted active-set NNLS, computes standardized effects, combines regional estimates within original studies, and performs DerSimonian–Laird and Knapp–Hartung analyses. It compares the recomputed sample-level contributions and pooled estimates with the included reference outputs and stops if differences exceed `1e-8`. Generated files are written to `results/`, which is excluded from version control.
+| File | Contents |
+| --- | --- |
+| `recomputed_fractions.tsv` | Per-sample, per-cell fractions for both references |
+| `deconvolution_qc.tsv` | Per-sample fit diagnostics: shared genes, KKT residual, weighted residual, fit correlation |
+| `dataset_effects.tsv` | Hedges' g and variance for each dataset–site stratum |
+| `study_effects.tsv` | Effects aggregated within original study |
+| `pooled_effects.tsv` | Random-effects estimates with both correction families |
+| `validation.txt` | Maximum absolute deviation from the reference outputs |
 
-## Interpret the data
+The deposited inputs and reference outputs were verified with R 4.5.2, metafor 5.2.1, Python 3.11.17, and openpyxl 3.1.5, and the case study reproduces to a maximum absolute deviation of 5e-16 in the cell fractions. The reported tolerances depend on those versions. `environment.yml` was not independently re-solved from a clean environment; the versions it pins are the ones the verification used.
 
-The 11,820 records describe the full collection. They include repeated visits, technical or assay replicates, condition-specific aliquots and pooled material. They are not a globally deduplicated participant count. The 98 study records include original and secondary publications.
+## Data availability
 
-Known ex vivo stimulated samples (552 records) and cultured controls (483 records) are excluded from default platform analyses, leaving 10,785 records across 79 datasets before additional selection. Experimental conditions for the remaining records are Unknown; this does not establish that every retained specimen was unstimulated.
+Original expression data are available from GEO, BioProject/SRA, and ArrayExpress/BioStudies under the accessions listed in Supplementary Table S1; sample-level provenance and repository links are recorded per record in Table S1E. Complete processed matrices for all 82 datasets remain available through the platform and through the originating repositories. The deposited gene matrices cover only the case study, and `data/metadata/matrix_inventory.tsv` records the accession, dimensions, and stored path for every matrix in the collection.
 
-The fixed exploratory case contains 369 selected HIV-negative whole-blood microarray records (203 ATB and 166 LTBI UC), five datasets and five regional cohorts from three original studies. Its original-study pooling differs from the general online dataset-level pooling workflow. Inferred cellular contributions depend on the reference and input scale. The input transformation assumptions, incomplete pretreatment ascertainment and source-specific participant linkage are described in [analysis methods](docs/analysis_methods.md).
+## Citation
 
-The included gene-expression inputs contain only the selected records and the union of genes needed by the two reference matrices. Complete processed expression matrices for all 82 datasets are **not** included here. Matrix dimensions and accessions are provided for provenance and retrieval; they do not constitute independent validation of all upstream preprocessing.
+A manuscript describing TB-BTR is in preparation. Until it appears, please cite the resource as:
 
-## Data sources and attribution
+> Yuan S. TB-BTR: Tuberculosis Blood Transcriptome Resource. GitHub repository, 2026. https://github.com/shaoxunyuan/TB-BTR
 
-Original data are available through GEO, BioProject/SRA and ArrayExpress/BioStudies. Supplementary Table S1 supplies accession and publication links. The illustrative case draws on Berry et al. (2010), Kaforou et al. (2013) and Anderson et al. (2014); source links are also included in `reproducibility/fixed_case/primary_sources.tsv`.
+A machine-readable record is provided in `CITATION.cff`. Studies contributing to the case study — Berry et al. (2010), Kaforou et al. (2013), and Anderson et al. (2014) — should be cited alongside this resource when their data are used, as should the sources of the LM22 and ImmunoStates signatures.
 
-Please cite the original datasets, studies and methods when reusing these materials. Third-party data and reference signatures retain their original attribution and terms; see [data use and attribution](docs/data_use.md). This repository does not assign a new blanket license to third-party materials.
+## Licensing and contact
 
-Questions and reproducibility issues can be reported through this repository's Issues page.
+The repository combines project-authored material with data and signatures obtained from other sources, and these are not governed by a single set of terms. The harmonised annotations, derived tables, and analysis scripts produced for TB-BTR may be reused with attribution to the resource. Public expression data, the LM22 and ImmunoStates reference signatures, and third-party software remain subject to the conditions set by their original providers; [`docs/data_use.md`](docs/data_use.md) records those sources and the terms attached to each.
+
+Corrections, questions, and reproduction issues can be raised through the repository's Issues page.

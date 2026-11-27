@@ -1,6 +1,13 @@
-# Offline re-estimation from platform gene matrices, not CIBERSORT/CIBERSORTx.
-# Weighted non-negative least squares; the stored platform profiles fail a
-# near-rank-one diagnostic and are retained only for provenance/QC comparison.
+# Relative immune-cell estimation for the deposited case study.
+#
+# This is a weighted non-negative least squares implementation written for this
+# analysis. It is not CIBERSORT or CIBERSORTx, and its output should not be
+# described as CIBERSORT output.
+#
+# The cell-level matrices stored by the platform for LM22 and ImmunoStates are
+# kept in data/metadata/matrix_inventory.tsv for provenance and comparison only.
+# Inference runs from the deposited gene matrices and reference signatures, so
+# the platform-derived profiles are never used as input here.
 reference_nnls <- function(expr, sig, mapping_path) {
  common <- intersect(rownames(expr),rownames(sig))
  if(length(common)<100)stop('Insufficient reference gene overlap')

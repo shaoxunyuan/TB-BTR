@@ -48,7 +48,7 @@ The phenotype column in Table 1 is a display category that resolves the cross-se
 
 Final intervals are `(0,7]`, `(7,28]`, `(28,60]`, `(60,120]`, `(120,180]`, `(180,240]`, `(240,360]`, and `(360,Inf)` days. Day zero is not assigned to a positive treatment interval. An interval may be reported where an explicit numeric day remains unresolved, with the provenance fields preserving that distinction. No midpoints were imputed for this release.
 
-Progression-associated sampling uses a separate set of diagnosis-relative windows: `(-Inf,-540)`, `[-540,-360)`, `[-360,-180)`, `[-180,-60)`, `[-60,-21)`, and `[-21,0)` days. These describe sampling before diagnosis and are not interchangeable with the post-initiation treatment intervals.
+Progression-associated sampling uses a separate set of diagnosis-relative windows: `(-Inf,-540)`, `[-540,-360)`, `[-360,-180)`, `[-180,-60)`, `[-60,-21)`, and `[-21,0]` days. These describe sampling before diagnosis and are not interchangeable with the post-initiation treatment intervals. The two scales are distinct: the diagnosis-relative windows are closed at day 0, whereas day zero is not assigned to any positive treatment interval.
 
 ## Matrix inventory and research classification
 

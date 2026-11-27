@@ -5,4 +5,6 @@ dependencies:
   - python=3.11
   - openpyxl=3.1.5
   - r-base=4.5.2
-  - r-metafor=5.2.1
+  # conda-forge carries metafor up to 5.0_1. Numerical results were verified
+  # against metafor 5.2.1 from CRAN; see README for the tolerance implications.
+  - r-metafor=5.0_1

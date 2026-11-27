@@ -1,6 +1,19 @@
+License scope
+
+The MIT License below applies to project-authored source code in this
+repository, including the scripts distributed for validation and reproducible
+analysis.
+
+It does not grant rights to third-party transcriptomic datasets, reference
+signature matrices, publications, or other externally sourced materials. Such
+materials remain subject to their original licenses, terms of use, and citation
+requirements.
+
+--------------------------------------------------------------------------------
+
 MIT License
 
-Copyright (c) 2026 Shaoxun Yuan
+Copyright (c) 2026 TB-BTR contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

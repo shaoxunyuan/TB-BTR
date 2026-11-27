@@ -34,8 +34,14 @@ Platform accounts, uploaded private cohorts, service credentials, original parti
 
 ## Licensing
 
-Analysis code and documentation written for TB-BTR are released under the MIT License (`LICENSE`). The licence covers the project's own scripts, derived tables, and documentation.
+Rights differ across three categories of content in this repository.
 
-It does not extend to public expression data, to the LM22 and ImmunoStates reference signatures, or to third-party software, all of which remain under the terms of their providers as described above. No project licence is asserted over third-party material, and none of the third-party terms are relaxed by its inclusion here.
+**Project-authored source code.** The scripts in `scripts/` and `reproducibility/fixed_case/methods/` are released under the MIT License, reproduced in the root `LICENSE` file, whose scope notice limits that grant to project-authored source code.
+
+**Project-authored annotations and derived tables.** The harmonised annotations, phenotype assignments, treatment-interval assignments, derived tables, and documentation produced for TB-BTR were not built from a third-party template and are made available for reuse with attribution to TB-BTR. They are not covered by the MIT code license, because that license is scoped to source code; requests for permissions beyond attribution should be directed to the maintainers.
+
+**Third-party datasets, signature matrices, and external resources.** Public expression data from GEO and ArrayExpress, the LM22 and ImmunoStates reference signatures, and any third-party software remain subject to the licenses, terms of use, and citation requirements set by their providers. Nothing in this repository's license re-licenses that material, and no such terms are relaxed by its inclusion here.
+
+Users are expected to cite the original studies for any data they reuse, in addition to citing TB-BTR for the curation layer. [`analysis_methods.md`](analysis_methods.md) describes the analysis; this file records attribution and terms only.
 
 Requests concerning permissions, corrections, or additional material can be directed to the maintainers through the repository's Issues page.

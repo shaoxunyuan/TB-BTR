@@ -42,6 +42,8 @@ Treatment timing is recorded as one of eight intervals from `(0,7]` to `(360,Inf
 
 Participant linkage is available for 8,272 records across 46 datasets, contributing 4,048 source-scoped identifiers. Two annotation exclusions are applied by default: 552 records from ex vivo stimulation experiments and 483 cultured controls. The resulting default scope of 10,785 records across 79 datasets is the set the platform treats as eligible before further user selection.
 
+The default platform scope should not be interpreted as a strictly verified unstimulated cohort. Analyses requiring confirmed unstimulated specimens should additionally exclude records with unresolved experimental-condition annotations.
+
 ## Repository structure
 
 ```text
@@ -101,7 +103,9 @@ Rscript scripts/reproduce_fixed_case.R reproducibility/fixed_case results/fixed_
 | `pooled_effects.tsv` | Random-effects estimates with both correction families |
 | `validation.txt` | Maximum absolute deviation from the reference outputs |
 
-The deposited inputs and reference outputs were verified with R 4.5.2, metafor 5.2.1, Python 3.11.17, and openpyxl 3.1.5, and the case study reproduces to a maximum absolute deviation of 5e-16 in the cell fractions. The reported tolerances depend on those versions. `environment.yml` was not independently re-solved from a clean environment; the versions it pins are the ones the verification used.
+The case study was verified in two environments: the project's existing analysis environment (R 4.5.2, metafor 5.2.1, Python 3.11.17, openpyxl 3.1.5), and a clean environment created from `environment.yml` following the commands above (R 4.5.2, metafor 5.0.1, Python 3.11.18, openpyxl 3.1.5). Both reproduce the reference outputs, with a maximum absolute deviation of 5e-16 in the cell fractions, and the generated tables are identical between the two.
+
+conda-forge currently carries metafor up to 5.0.1, so that is what the environment file pins; the 5.2.1 build used in the original analysis was installed from CRAN. The two versions produced bit-identical output for this case study, but the tolerance above is stated for the deposited reference outputs rather than guaranteed across arbitrary future metafor releases.
 
 ## Data availability
 
@@ -111,14 +115,18 @@ Original expression data are available from GEO, BioProject/SRA, and ArrayExpres
 
 A manuscript describing TB-BTR is in preparation. Until it appears, please cite the resource as:
 
-> Yuan S. TB-BTR: Tuberculosis Blood Transcriptome Resource. GitHub repository, 2026. https://github.com/shaoxunyuan/TB-BTR
+> Zhu S, Wang K, Yuan S, Gu W. TB-BTR: Tuberculosis Blood Transcriptome Resource. GitHub repository, 2026. https://github.com/shaoxunyuan/TB-BTR
 
 A machine-readable record is provided in `CITATION.cff`. Studies contributing to the case study — Berry et al. (2010), Kaforou et al. (2013), and Anderson et al. (2014) — should be cited alongside this resource when their data are used, as should the sources of the LM22 and ImmunoStates signatures.
 
 ## Licensing and contact
 
-Analysis code and documentation written for TB-BTR are released under the MIT License (see `LICENSE`). This covers the files in `scripts/`, `metadata`-derived tables and field definitions produced for the resource, and the documentation in `docs/`.
+The repository contains three kinds of material, and rights differ between them.
 
-The licence does not extend to the contents of `reproducibility/fixed_case/gene/` or to the LM22 and ImmunoStates reference signatures, which originate elsewhere and remain subject to the terms of their providers; [`docs/data_use.md`](docs/data_use.md) records each source and its conditions.
+Project-authored source code, in `scripts/` and `reproducibility/fixed_case/methods/`, is distributed under the repository license (MIT, see `LICENSE`). The scope notice in that file limits the grant to source code.
+
+Project-authored annotations and derived tables are made available for reuse with attribution to TB-BTR; they are not covered by the MIT code license.
+
+Third-party datasets, reference signatures, and externally sourced materials remain subject to their original terms and citation requirements. The repository license does not re-license GEO or ArrayExpress data, the LM22 or ImmunoStates signature matrices, or any third-party software. [`docs/data_use.md`](docs/data_use.md) records each source and its conditions.
 
 Corrections, questions, and reproduction issues can be raised through the repository's Issues page.

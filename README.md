@@ -2,7 +2,9 @@
 
 TB-BTR is a curated resource of human blood transcriptome studies for tuberculosis research. Publicly deposited microarray and RNA-seq studies are assembled into a single catalogue in which study provenance, specimen type, clinical phenotype, treatment timing, and participant linkage are recorded under harmonised definitions.
 
-**Web platform:** http://tbbtr.njucm-bioinfo.cn:9191/
+**Web platform:** http://tbbtr.njucm-bioinfo.cn:9191/ · http://36.212.172.93:9191/
+
+Both addresses serve the same instance; the IP address provides an alternative if the domain is unavailable.
 
 | | |
 | --- | --- |
@@ -22,7 +24,7 @@ The resource supports retrieval of studies and datasets together with their cura
 
 ## Web resource
 
-The platform at http://tbbtr.njucm-bioinfo.cn:9191/ provides interactive access to the collection:
+The platform provides interactive access to the collection:
 
 - Browsing and searching of catalogued studies and datasets, with sample-level metadata and provenance for each record.
 - Expression queries at gene, gene-module (BTM and BloodGen3), and immune-cell level.
